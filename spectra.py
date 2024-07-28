@@ -52,14 +52,16 @@ def wavelength_to_rgb(wavelength):
 
 
 # Функция для генерации спектра
-def generate_spectrum(wavelengths, background="black"):
+def generate_spectrum(wavelengths, background="white"):
     fig, ax = plt.subplots(figsize=(10, 2))
     if background == "black":
         fig.patch.set_facecolor("black")
         ax.set_facecolor("black")
+        text_color = "white"
     else:
         fig.patch.set_facecolor("white")
         ax.set_facecolor("white")
+        text_color = "black"
 
     for wavelength in wavelengths:
         if VISIBLE_RANGE[0] <= wavelength <= VISIBLE_RANGE[1]:
@@ -67,15 +69,39 @@ def generate_spectrum(wavelengths, background="black"):
         else:
             color = "gray"
         ax.axvline(x=wavelength, color=color, linewidth=2)
+        ax.text(
+            wavelength,
+            -0.25,
+            f"{wavelength:.1f} nm",
+            rotation=0,
+            verticalalignment="top",
+            horizontalalignment="center",
+            color=text_color,
+            fontsize=8,
+        )
 
     ax.set_xlim(300, 800)
-    ax.set_ylim(0, 1)
+    ax.set_ylim(-0.2, 1)
     ax.get_yaxis().set_visible(False)
     ax.get_xaxis().set_visible(False)
 
     plt.show()
 
 
-# Пример использования
-wavelengths = [370, 400, 450, 500, 550, 600, 650, 700, 750]
-generate_spectrum(wavelengths)
+spectral_lines = {
+    "Hydrogen": [656.3, 486.1, 434.0, 410.2],
+    "Helium": [447.1, 501.6, 587.6, 667.8],
+    "Sodium": [589.0, 589.6],
+    "Mercury": [404.7, 435.8, 546.1, 576.9],
+    "Neon": [585.2, 640.2, 659.9, 703.2],
+    "Argon": [696.5, 706.7, 738.4, 763.5, 810.4],
+    "Krypton": [427.4, 431.9, 436.3, 557.0, 587.1],
+    "Xenon": [823.2, 828.0, 834.7, 881.9, 904.5],
+    "Oxygen": [558.0, 630.0, 636.4],
+    "Nitrogen": [575.5, 648.2, 742.3],
+    "Calcium": [422.7, 443.5, 458.1, 527.0, 558.9],
+    "Iron": [438.3, 441.5, 443.1, 445.2, 450.0],
+}
+
+
+generate_spectrum(spectral_lines.get("Oxygen"))
