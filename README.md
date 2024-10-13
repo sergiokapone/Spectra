@@ -24,5 +24,3 @@ generate_spectrum(wavelengths)
 generate specrum like
 
 ![spectra](spectra.png)
-
-
